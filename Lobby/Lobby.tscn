@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Lobby/Lobby.gd" type="Script" id=1]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.454902, 0.454902, 0.454902, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+rect_scale = Vector2( 5, 5 )
+text = "Lobby"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Players" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -100.0
+custom_constants/separation = 50
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerLabel1" type="Label" parent="Players"]
+margin_top = 197.0
+margin_right = 100.0
+margin_bottom = 211.0
+
+[node name="PlayerLabel2" type="Label" parent="Players"]
+margin_top = 261.0
+margin_right = 100.0
+margin_bottom = 275.0
+
+[node name="PlayerLabel3" type="Label" parent="Players"]
+margin_top = 325.0
+margin_right = 100.0
+margin_bottom = 339.0
+
+[node name="PlayerLabel4" type="Label" parent="Players"]
+margin_top = 389.0
+margin_right = 100.0
+margin_bottom = 403.0
+
+[node name="Button" type="Button" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = -54.3137
+margin_right = 163.0
+margin_bottom = -11.3137
+text = "Start Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}

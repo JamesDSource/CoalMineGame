@@ -3,17 +3,8 @@ extends Node
 const PORT = 9785
 const MAX_PLAYERS = 4
 
-onready var peer = NetworkedMultiplayerENet.new()
-
-# Client class that hold all client info
-class Client:
-	var id = ""
-	var client_name = ""
-	func _init(id, client_name):
-		self.id = id
-		self.client_name = client_name
-
-var clients = []
+sync var clients = []
+var client_name = ""
 
 func _ready():
 	# setting some signals
@@ -22,27 +13,44 @@ func _ready():
 
 # functions for managing the server/client
 func create_server():
+	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(PORT, MAX_PLAYERS)
 	get_tree().network_peer = peer
+	
+	_player_connected(get_tree().get_network_unique_id())
 
 func connect_client(ip):
+	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(ip, PORT)
 	get_tree().network_peer = peer
 
 func network_disconnect():
 	get_tree().network_peer = null
 
-
 # some signals
+sync func _set_player_name(player_name):
+	var sender_id = get_tree().get_rpc_sender_id()
+	var index = 0
+	for client in clients:
+		if client[0] == sender_id:
+			clients[index] = [sender_id, player_name]
+			rset("clients", clients)
+			break
+		index = index + 1
+
+sync func _request_player_name():
+	rpc_id(1, "_set_player_name", client_name)
+
 func _player_connected(id):
 	if get_tree().is_network_server():
-		clients.append(Client.new(id, "Player"))
+		clients.append([id, "Player Name"])
 		rset("clients", clients)
+		rpc_id(id, "_request_player_name")
 
 func _player_disconnected(id):
 	if get_tree().is_network_server():
 		for client in clients:
-			if client.id == id:
+			if client[0] == id:
 				clients.erase(client)
 				rset("clients", clients)
 				break
