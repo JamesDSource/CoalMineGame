@@ -28,6 +28,8 @@ func _input(event):
 		$Head.rotation_degrees.x = clamp($Head.rotation_degrees.x, -camera_angle_max, camera_angle_max)
 
 func _process(delta):
+	$Head/Camera.current = is_network_master()
+	
 	if Input.is_action_just_pressed("pause"):
 		get_tree().quit()
 	
@@ -43,13 +45,16 @@ func _process(delta):
 			get_movement()
 
 func _physics_process(delta):
-	# Move twords the move direcion
-	var temp_y = velocity.y
-	velocity = velocity.linear_interpolate(move_direction*move_speed, move_acceleration*delta)
-	velocity.y = temp_y - Globals.GRAVITY*delta
-	if move_direction.y != 0: velocity.y += move_direction.y
-	velocity = move_and_slide(velocity, Vector3.UP)
-	move_direction = Vector3()
+	if is_network_master():
+		# Move twords the move direcion
+		var temp_y = velocity.y
+		velocity = velocity.linear_interpolate(move_direction*move_speed, move_acceleration*delta)
+		velocity.y = temp_y - Globals.GRAVITY*delta
+		if move_direction.y != 0: velocity.y += move_direction.y
+		velocity = move_and_slide(velocity, Vector3.UP)
+		move_direction = Vector3()
+		
+		rpc_unreliable("sync_transform", global_transform)
 	
 
 func get_movement():
@@ -69,3 +74,6 @@ func get_movement():
 	
 	if Input.is_action_just_pressed("jump") && is_on_floor():
 		move_direction.y = jump_force
+
+sync func sync_transform(transform):
+	global_transform = transform

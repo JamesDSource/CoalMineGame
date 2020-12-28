@@ -3,6 +3,7 @@ extends Spatial
 
 export var spawn_points = 4 setget spawn_points_changed
 
+var spawned = false
 
 func spawn_points_changed(sp):
 	if Engine.editor_hint:
@@ -17,3 +18,17 @@ func spawn_points_changed(sp):
 			position.name = "SpawnPoint" + str(i + 1)
 			add_child(position)
 			position.set_owner(get_tree().get_edited_scene_root())
+
+func _process(delta):
+	if !Engine.editor_hint && !spawned:
+		var clients = Network.clients
+		var player = load("res://Player/Player.tscn")
+		var index = 1
+		for client in clients:
+			var player_inst = player.instance()
+			get_tree().root.add_child(player_inst)
+			var spawn = get_node("SpawnPoint" + str(index))
+			player_inst.global_transform.origin = spawn.global_transform.origin
+			player_inst.set_network_master(client[0])
+			index += 1
+		spawned = true
