@@ -58,7 +58,7 @@ margin_top = 389.0
 margin_right = 100.0
 margin_bottom = 403.0
 
-[node name="Button" type="Button" parent="."]
+[node name="StartButton" type="Button" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -69,3 +69,4 @@ text = "Start Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]

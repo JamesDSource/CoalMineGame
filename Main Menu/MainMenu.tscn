@@ -70,7 +70,7 @@ margin_right = 160.0
 margin_bottom = 335.0
 rect_min_size = Vector2( 0, 20 )
 hint_tooltip = "IP"
-text = "76.217.25.132"
+text = "127.0.0.1"
 highlight_current_line = true
 [connection signal="pressed" from="VBoxContainer/ButtonHost" to="." method="_on_ButtonHost_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonConnect" to="." method="_on_ButtonConnect_pressed"]

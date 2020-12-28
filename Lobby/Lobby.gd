@@ -11,3 +11,12 @@ func _process(delta):
 	for i in range(label_index, 5):
 		var player_label_node = get_node("Players/PlayerLabel" + str(i))
 		player_label_node.text = ""
+	
+	$StartButton.visible = get_tree().is_network_server()
+
+
+sync func _start_game():
+	get_tree().change_scene("res://Test/Test.tscn")
+
+func _on_StartButton_pressed():
+	rpc("_start_game")
