@@ -18,11 +18,11 @@ var move_speed = 20
 var jump_force = 30
 
 func _ready():
-	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Head/Camera/RayCast.add_exception(self)
 
 func _input(event):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion && is_network_master() && !Globals.paused:
 		rotation_degrees.y -= event.relative.x*mouse_sensitivity
 		$Head.rotation_degrees.x -= event.relative.y*mouse_sensitivity
 		$Head.rotation_degrees.x = clamp($Head.rotation_degrees.x, -camera_angle_max, camera_angle_max)
@@ -30,8 +30,14 @@ func _input(event):
 func _process(delta):
 	$Head/Camera.current = is_network_master()
 	
-	if Input.is_action_just_pressed("pause"):
-		get_tree().quit()
+	# Checking that if the player has quit the game
+	# will delete itself it it doesn't have a player
+	var has_player = false
+	for client in Network.clients:
+		if get_network_master() == client[0]:
+			has_player = true
+	if !has_player:
+		queue_free()
 	
 	# Getting the position that the player is aiming at
 	var aim_raycast = $Head/Camera/RayCast
@@ -40,9 +46,10 @@ func _process(delta):
 	else:
 		aim_raycast.get_node("LookPoint").transform.origin = aim_raycast.cast_to
 	
-	match(state):
-		STATES.FREE:
-			get_movement()
+	if !Globals.paused && is_network_master():
+		match(state):
+			STATES.FREE:
+				get_movement()
 
 func _physics_process(delta):
 	if is_network_master():

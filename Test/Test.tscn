@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Player Spawner/PlayerSpawner.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pause/Pause.tscn" type="PackedScene" id=2]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -27,3 +28,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.35604, 2.22376, 0 )
 
 [node name="SpawnPoint2" type="Position3D" parent="PlayerSpawner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.10901, 2.25179, 0 )
+
+[node name="Pause" parent="." instance=ExtResource( 2 )]
