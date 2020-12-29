@@ -3,10 +3,12 @@ extends KinematicBody
 # Camera
 var mouse_sensitivity = 0.2
 var camera_angle_max = 89
+var camera_zoomed = false
 
 # State machine
 enum STATES {
-	FREE
+	FREE,
+	DEAD
 }
 var state = STATES.FREE
 
@@ -16,6 +18,7 @@ var move_direction = Vector3()
 var move_acceleration = 15
 var move_speed = 20
 var jump_force = 30
+var move_mult = 1
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -46,16 +49,37 @@ func _process(delta):
 	else:
 		aim_raycast.get_node("LookPoint").transform.origin = aim_raycast.cast_to
 	
+	# Zooming the camera
+	var zoom_fov = 50
+	var base_fov = 90
+	var camera = $Head/Camera
+	var camera_tween = $Head/Camera/TweenFOV
+	if !camera_tween.is_active():
+		var fov_tween_time = 0.3
+		if camera_zoomed && camera.fov != zoom_fov:
+			camera_tween.interpolate_property(camera, "fov", null, zoom_fov, fov_tween_time, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+			camera_tween.start()
+		elif !camera_zoomed && camera.fov != base_fov:
+			camera_tween.interpolate_property(camera, "fov", null, base_fov, fov_tween_time, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+			camera_tween.start()
+	
 	if !Globals.paused && is_network_master():
 		match(state):
 			STATES.FREE:
 				get_movement()
+				
+				if Input.is_action_pressed("Aim"):
+					move_mult = 0.6
+					camera_zoomed = true
+				else:
+					move_mult = 1
+					camera_zoomed = false
 
 func _physics_process(delta):
 	if is_network_master():
 		# Move twords the move direcion
 		var temp_y = velocity.y
-		velocity = velocity.linear_interpolate(move_direction*move_speed, move_acceleration*delta)
+		velocity = velocity.linear_interpolate(move_direction*move_speed*move_mult, move_acceleration*delta)
 		velocity.y = temp_y - Globals.GRAVITY*delta
 		if move_direction.y != 0: velocity.y += move_direction.y
 		velocity = move_and_slide(velocity, Vector3.UP)
@@ -82,5 +106,5 @@ func get_movement():
 	if Input.is_action_just_pressed("jump") && is_on_floor():
 		move_direction.y = jump_force
 
-sync func sync_transform(transform):
+puppetsync func sync_transform(transform):
 	global_transform = transform

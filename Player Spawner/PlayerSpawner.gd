@@ -30,5 +30,6 @@ func _process(delta):
 			var spawn = get_node("SpawnPoint" + str(index))
 			player_inst.global_transform.origin = spawn.global_transform.origin
 			player_inst.set_network_master(client[0])
+			player_inst.name = client[1] + str(client[0])
 			index += 1
 		spawned = true

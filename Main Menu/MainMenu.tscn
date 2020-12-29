@@ -13,19 +13,19 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -0.667419
+margin_bottom = -0.667419
 color = Color( 0.490196, 0.490196, 0.490196, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -400.0
-margin_right = -204.0
-margin_bottom = 15.0
-rect_scale = Vector2( 4, 4 )
-text = "Untitled Mining Survival Game"
+[node name="Title" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 100.0
+text = "Untitled Coal Mining Game"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -44,13 +44,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEditName" type="TextEdit" parent="VBoxContainer"]
-margin_top = 105.0
+[node name="LineEditName" type="LineEdit" parent="VBoxContainer"]
+margin_top = 101.0
 margin_right = 160.0
 margin_bottom = 125.0
-rect_min_size = Vector2( 0, 20 )
-hint_tooltip = "Name"
-highlight_current_line = true
+placeholder_text = "Name"
+caret_blink = true
 
 [node name="ButtonHost" type="Button" parent="VBoxContainer"]
 margin_top = 175.0
@@ -64,13 +63,12 @@ margin_right = 160.0
 margin_bottom = 265.0
 text = "Connect"
 
-[node name="TextEditIP" type="TextEdit" parent="VBoxContainer"]
+[node name="LineEditIP" type="LineEdit" parent="VBoxContainer"]
 margin_top = 315.0
 margin_right = 160.0
-margin_bottom = 335.0
-rect_min_size = Vector2( 0, 20 )
-hint_tooltip = "IP"
+margin_bottom = 339.0
 text = "127.0.0.1"
-highlight_current_line = true
+placeholder_text = "IP"
+caret_blink = true
 [connection signal="pressed" from="VBoxContainer/ButtonHost" to="." method="_on_ButtonHost_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonConnect" to="." method="_on_ButtonConnect_pressed"]
