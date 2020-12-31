@@ -1,0 +1,79 @@
+{
+	"sheets": [
+		{
+			"name": "Weapons",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "ID"
+				},
+				{
+					"typeStr": "1",
+					"name": "Name",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "Damage"
+				},
+				{
+					"typeStr": "3",
+					"name": "Projectiles"
+				},
+				{
+					"typeStr": "4",
+					"name": "Delay"
+				},
+				{
+					"typeStr": "5:AUTO,SEMIAUTO",
+					"name": "FireMode",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "Burst"
+				},
+				{
+					"typeStr": "4",
+					"name": "BurstDelay"
+				},
+				{
+					"typeStr": "4",
+					"name": "HipSpread"
+				},
+				{
+					"typeStr": "4",
+					"name": "Recoil"
+				},
+				{
+					"typeStr": "3",
+					"name": "AmmoClip"
+				},
+				{
+					"typeStr": "3",
+					"name": "AmmoReserve"
+				}
+			],
+			"lines": [
+				{
+					"Damage": 32,
+					"Delay": 0.2,
+					"Burst": 1,
+					"BurstDelay": 0,
+					"ID": "StartingPistol",
+					"Name": "Starting Pistol",
+					"AmmoClip": 5,
+					"AmmoReserve": 28,
+					"HipSpread": 15,
+					"Recoil": 10,
+					"FireMode": 1,
+					"Projectiles": 1
+				}
+			],
+			"separators": [],
+			"props": {}
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}
